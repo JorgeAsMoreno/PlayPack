@@ -8,6 +8,8 @@ export interface Translations {
   btn_download: string
   btn_cancel: string
   connecting: string
+  connecting_spotify: string
+  spotify_ok: string
   err_connection_lost: string
   err_start_download: string
   err_unknown: string
@@ -31,6 +33,8 @@ const en: Translations = {
   btn_download: 'Download',
   btn_cancel: 'Cancel',
   connecting: 'Connecting to Spotify...',
+  connecting_spotify: 'Connecting to Spotify...',
+  spotify_ok: 'Connected — fetching playlist',
   err_connection_lost: 'Connection lost with server',
   err_start_download: 'Error starting download',
   err_unknown: 'Unknown error',
@@ -55,6 +59,8 @@ const es: Translations = {
   btn_download: 'Descargar',
   btn_cancel: 'Cancelar',
   connecting: 'Conectando con Spotify...',
+  connecting_spotify: 'Conectando con Spotify...',
+  spotify_ok: 'Conectado — obteniendo playlist',
   err_connection_lost: 'Conexión perdida con el servidor',
   err_start_download: 'Error al iniciar la descarga',
   err_unknown: 'Error desconocido',

@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { type Lang, getSavedLang, getTranslations } from './i18n'
 
-const GITHUB_URL = 'https://github.com/tu-usuario/playpack'
+const GITHUB_URL = 'https://github.com/JorgeAsMoreno/PlayPack'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Phase = 'idle' | 'connecting' | 'downloading' | 'complete' | 'error'
+type Phase = 'idle' | 'connecting' | 'spotify_ok' | 'downloading' | 'complete' | 'error'
 type TrackStatus = 'pending' | 'downloading' | 'ok' | 'failed' | 'skipped'
 
 interface TrackItem {
@@ -251,8 +251,11 @@ export default function App() {
         const ev = JSON.parse(e.data)
         if (ev.type === 'ping') return
 
+        // Spotify connection succeeded — playlist info is arriving
         if (ev.type === 'playlist_info') {
-          setState(s => ({
+          setState(s => ({ ...s, phase: 'spotify_ok' }))
+          // Small delay so the "connected" message is visible before the card appears
+          setTimeout(() => setState(s => ({
             ...s,
             phase: 'downloading',
             playlistName: ev.name,
@@ -261,7 +264,7 @@ export default function App() {
               label: t.track_placeholder(i + 1),
               status: 'pending',
             })),
-          }))
+          })), 800)
         }
 
         if (ev.type === 'track_start') {
@@ -335,7 +338,7 @@ export default function App() {
     ? state.total
     : Math.max(0, state.successful + state.failed + state.skipped)
   const pct          = state.total > 0 ? Math.round((completed / state.total) * 100) : 0
-  const isRunning    = state.phase === 'connecting' || state.phase === 'downloading'
+  const isRunning    = state.phase === 'connecting' || state.phase === 'spotify_ok' || state.phase === 'downloading'
   const currentTrack = state.tracks[state.current - 1]
 
   const avatarColors = ['bg-violet-500', 'bg-blue-500', 'bg-emerald-500', 'bg-pink-500', 'bg-orange-500', 'bg-cyan-500']
@@ -412,12 +415,22 @@ export default function App() {
             </div>
           )}
 
-          {/* Connecting */}
-          {state.phase === 'connecting' && (
-            <div className="animate-slide-down flex items-center justify-center gap-3 py-8
-                            text-neutral-500 dark:text-neutral-400 text-sm">
-              <Spinner size={16} color="border-spotify" />
-              <span>{t.connecting}</span>
+          {/* Connecting / Spotify OK */}
+          {(state.phase === 'connecting' || state.phase === 'spotify_ok') && (
+            <div className="animate-slide-down flex flex-col items-center gap-3 py-8">
+              <div className="flex items-center gap-3 text-neutral-500 dark:text-neutral-400 text-sm">
+                {state.phase === 'connecting' ? (
+                  <>
+                    <Spinner size={16} color="border-spotify" />
+                    <span>{t.connecting_spotify}</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-spotify font-bold text-base">✓</span>
+                    <span className="text-spotify font-medium">{t.spotify_ok}</span>
+                  </>
+                )}
+              </div>
             </div>
           )}
 

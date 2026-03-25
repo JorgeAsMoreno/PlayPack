@@ -57,7 +57,7 @@ PlayPack reads your playlist from the Spotify API, searches each track on YouTub
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/tu-usuario/playpack.git
+git clone https://github.com/JorgeAsMoreno/PlayPack.git
 cd playpack
 ```
 

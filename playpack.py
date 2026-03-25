@@ -18,8 +18,8 @@ import yt_dlp
 
 # ─── Config ──────────────────────────────────────────────────────────────────
 
-SPOTIFY_CLIENT_ID     = os.getenv("SPOTIFY_CLIENT_ID", "ebdcff6c474e4a52b8444cb96868b6b8")
-SPOTIFY_CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET", "6bef0d673e8b4577af6c885ccaf4666d")
+SPOTIFY_CLIENT_ID     = os.getenv("SPOTIFY_CLIENT_ID", "")
+SPOTIFY_CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET", "")
 
 DOWNLOADS_DIR = Path(__file__).parent / "downloads"
 DOWNLOADS_DIR.mkdir(exist_ok=True)

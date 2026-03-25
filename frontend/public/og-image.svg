@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a"/>
+      <stop offset="100%" style="stop-color:#111111"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1db954;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#1db954;stop-opacity:0"/>
+    </linearGradient>
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="40"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Glow orb -->
+  <circle cx="600" cy="315" r="350" fill="url(#glow)" filter="url(#blur)"/>
+
+  <!-- Top-left decorative dots grid -->
+  <g fill="#1db954" opacity="0.08">
+    <circle cx="60" cy="60" r="3"/><circle cx="100" cy="60" r="3"/><circle cx="140" cy="60" r="3"/>
+    <circle cx="60" cy="100" r="3"/><circle cx="100" cy="100" r="3"/><circle cx="140" cy="100" r="3"/>
+    <circle cx="60" cy="140" r="3"/><circle cx="100" cy="140" r="3"/><circle cx="140" cy="140" r="3"/>
+  </g>
+
+  <!-- Bottom-right decorative dots grid -->
+  <g fill="#1db954" opacity="0.08">
+    <circle cx="1060" cy="490" r="3"/><circle cx="1100" cy="490" r="3"/><circle cx="1140" cy="490" r="3"/>
+    <circle cx="1060" cy="530" r="3"/><circle cx="1100" cy="530" r="3"/><circle cx="1140" cy="530" r="3"/>
+    <circle cx="1060" cy="570" r="3"/><circle cx="1100" cy="570" r="3"/><circle cx="1140" cy="570" r="3"/>
+  </g>
+
+  <!-- Music icon -->
+  <g transform="translate(474, 155) scale(5.2)" fill="#1db954">
+    <path d="M9 18V5l12-2v13"/>
+    <circle cx="6" cy="18" r="3"/>
+    <circle cx="18" cy="16" r="3"/>
+  </g>
+
+  <!-- PlayPack wordmark -->
+  <text x="600" y="358"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="90"
+        font-weight="700"
+        letter-spacing="-2"
+        fill="#ffffff"
+        text-anchor="middle">PlayPack</text>
+
+  <!-- Tagline -->
+  <text x="600" y="420"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="28"
+        font-weight="400"
+        fill="#a3a3a3"
+        text-anchor="middle">Download Spotify playlists as MP3 · Free &amp; Open Source</text>
+
+  <!-- Pill badges -->
+  <rect x="354" y="460" width="130" height="40" rx="20" fill="#1db954" fill-opacity="0.15" stroke="#1db954" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="419" y="485"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="16" font-weight="600" fill="#1db954" text-anchor="middle">192 kbps MP3</text>
+
+  <rect x="504" y="460" width="130" height="40" rx="20" fill="#1db954" fill-opacity="0.15" stroke="#1db954" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="569" y="485"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="16" font-weight="600" fill="#1db954" text-anchor="middle">Real-time</text>
+
+  <rect x="654" y="460" width="130" height="40" rx="20" fill="#1db954" fill-opacity="0.15" stroke="#1db954" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="719" y="485"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="16" font-weight="600" fill="#1db954" text-anchor="middle">ZIP Download</text>
+
+  <!-- Bottom URL -->
+  <text x="600" y="580"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="20"
+        fill="#404040"
+        text-anchor="middle">playpack.onrender.com</text>
+</svg>

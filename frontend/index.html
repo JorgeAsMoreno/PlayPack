@@ -3,9 +3,84 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PlayPack</title>
+
+    <!-- ─── Primary SEO ──────────────────────────────────────────────────── -->
+    <title>PlayPack — Download Spotify Playlists as MP3</title>
+    <meta name="description" content="PlayPack downloads any public Spotify playlist as MP3 files at 192 kbps. Paste the playlist link, watch real-time progress, and get a ZIP. Free and open source." />
+    <meta name="keywords" content="spotify playlist downloader, download spotify to mp3, spotify mp3, playlist to mp3, youtube mp3, free music downloader, playpack" />
+    <meta name="author" content="JorgeAsMoreno" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://playpack.onrender.com" />
+
+    <!-- ─── Internationalisation ─────────────────────────────────────────── -->
+    <link rel="alternate" hreflang="en" href="https://playpack.onrender.com" />
+    <link rel="alternate" hreflang="es" href="https://playpack.onrender.com" />
+    <link rel="alternate" hreflang="x-default" href="https://playpack.onrender.com" />
+
+    <!-- ─── Open Graph ───────────────────────────────────────────────────── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="PlayPack" />
+    <meta property="og:title" content="PlayPack — Download Spotify Playlists as MP3" />
+    <meta property="og:description" content="Paste any public Spotify playlist link and download all tracks as MP3 at 192 kbps. Real-time progress, ZIP download. Free and open source." />
+    <meta property="og:url" content="https://playpack.onrender.com" />
+    <meta property="og:image" content="https://playpack.onrender.com/og-image.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="PlayPack — Download Spotify Playlists as MP3" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="es_ES" />
+
+    <!-- ─── Twitter Card ─────────────────────────────────────────────────── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PlayPack — Download Spotify Playlists as MP3" />
+    <meta name="twitter:description" content="Paste any public Spotify playlist link and download all tracks as MP3 at 192 kbps. Real-time progress, ZIP download. Free and open source." />
+    <meta name="twitter:image" content="https://playpack.onrender.com/og-image.svg" />
+    <meta name="twitter:image:alt" content="PlayPack — Download Spotify Playlists as MP3" />
+
+    <!-- ─── PWA / Theme ──────────────────────────────────────────────────── -->
+    <meta name="theme-color" content="#1db954" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- ─── Favicon ──────────────────────────────────────────────────────── -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231db954'><path d='M9 18V5l12-2v13'/><circle cx='6' cy='18' r='3'/><circle cx='18' cy='16' r='3'/></svg>" />
-    <!-- Restore saved theme and language before first paint to avoid flash -->
+
+    <!-- ─── JSON-LD Structured Data ──────────────────────────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "PlayPack",
+      "url": "https://playpack.onrender.com",
+      "description": "Download any public Spotify playlist as MP3 files at 192 kbps. Paste the playlist link, watch real-time progress, and get a ZIP.",
+      "applicationCategory": "MusicApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "JorgeAsMoreno",
+        "url": "https://github.com/JorgeAsMoreno"
+      },
+      "codeRepository": "https://github.com/JorgeAsMoreno/PlayPack",
+      "license": "https://opensource.org/licenses/MIT",
+      "inLanguage": ["en", "es"],
+      "featureList": [
+        "Download Spotify playlists as MP3",
+        "192 kbps audio quality",
+        "Real-time download progress",
+        "ZIP file download",
+        "English and Spanish UI",
+        "Dark and light theme"
+      ]
+    }
+    </script>
+
+    <!-- ─── Restore theme and language before first paint (no flash) ─────── -->
     <script>
       const t = localStorage.getItem('pp-theme')
       if (t === 'light') document.documentElement.classList.remove('dark')

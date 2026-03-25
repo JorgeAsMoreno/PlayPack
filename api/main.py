@@ -1,6 +1,7 @@
 import asyncio
 import io
 import json
+import logging
 import os
 import re
 import sys
@@ -10,7 +11,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Dict
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
@@ -25,6 +26,17 @@ from playpack import (
     fetch_playlist_tracks,
     get_spotify_client,
 )
+
+# ─── Logging ──────────────────────────────────────────────────────────────────
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+log = logging.getLogger("playpack")
+
+# ─── App ──────────────────────────────────────────────────────────────────────
 
 app = FastAPI()
 
@@ -44,8 +56,11 @@ class StartRequest(BaseModel):
 
 
 @app.post("/api/start")
-async def start_download(body: StartRequest):
+async def start_download(body: StartRequest, request: Request):
     job_id = str(uuid.uuid4())
+    client_ip = request.client.host if request.client else "unknown"
+    log.info("Job %s started | ip=%s url=%s", job_id[:8], client_ip, body.url)
+
     queue: asyncio.Queue = asyncio.Queue()
     jobs[job_id] = {"queue": queue, "status": "running", "playlist_dir": None}
     loop = asyncio.get_event_loop()
@@ -56,6 +71,7 @@ async def start_download(body: StartRequest):
 @app.get("/api/events/{job_id}")
 async def events(job_id: str):
     if job_id not in jobs:
+        log.warning("Events requested for unknown job %s", job_id[:8])
         raise HTTPException(404, "Job not found")
 
     async def generate():
@@ -80,12 +96,16 @@ async def events(job_id: str):
 async def download_zip(job_id: str):
     job = jobs.get(job_id)
     if not job or not job.get("playlist_dir"):
+        log.warning("ZIP requested for unknown/incomplete job %s", job_id[:8])
         raise HTTPException(404, "Job not found or not complete")
 
     playlist_dir = Path(job["playlist_dir"])
     mp3_files = list(playlist_dir.glob("*.mp3"))
     if not mp3_files:
+        log.warning("Job %s — ZIP requested but no MP3s found in %s", job_id[:8], playlist_dir)
         raise HTTPException(404, "No files found")
+
+    log.info("Job %s — serving ZIP with %d files from %s", job_id[:8], len(mp3_files), playlist_dir.name)
 
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
@@ -105,10 +125,15 @@ def _run_download(job_id: str, url: str, queue: asyncio.Queue, loop):
     def send(event: dict):
         asyncio.run_coroutine_threadsafe(queue.put(event), loop)
 
+    jid = job_id[:8]
+
     try:
+        log.info("Job %s — connecting to Spotify", jid)
         sp = get_spotify_client()
         playlist_id = extract_playlist_id(url)
         playlist_name, tracks = fetch_playlist_tracks(sp, playlist_id)
+
+        log.info("Job %s — playlist '%s' | %d tracks", jid, playlist_name, len(tracks))
 
         safe_name = re.sub(r'[\\/*?:"<>|]', "_", playlist_name)
         playlist_dir = DOWNLOADS_DIR / safe_name
@@ -135,6 +160,7 @@ def _run_download(job_id: str, url: str, queue: asyncio.Queue, loop):
                 skipped += 1
             else:
                 failed += 1
+                log.warning("Job %s — [%d/%d] FAILED  %s", jid, i, len(tracks), track)
 
             send({
                 "type": "track_done",
@@ -148,6 +174,10 @@ def _run_download(job_id: str, url: str, queue: asyncio.Queue, loop):
             })
 
         jobs[job_id]["status"] = "complete"
+        log.info(
+            "Job %s — done | ok=%d failed=%d skipped=%d",
+            jid, successful, failed, skipped,
+        )
         send({
             "type": "complete",
             "total": len(tracks),
@@ -158,6 +188,7 @@ def _run_download(job_id: str, url: str, queue: asyncio.Queue, loop):
 
     except Exception as e:
         jobs[job_id]["status"] = "error"
+        log.error("Job %s — error: %s", jid, e, exc_info=True)
         send({"type": "error", "message": str(e)})
 
 

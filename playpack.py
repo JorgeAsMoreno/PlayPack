@@ -152,6 +152,9 @@ def fetch_playlist_tracks(sp: spotipy.Spotify, playlist_id: str) -> tuple[str, l
 
 # ─── Download ─────────────────────────────────────────────────────────────────
 
+COOKIES_FILE = os.getenv("YTDLP_COOKIES_FILE", "")
+
+
 def build_ydl_opts(output_path: Path, filename_template: Optional[str] = None) -> dict:
     outtmpl = filename_template or str(output_path / "%(title)s.%(ext)s")
     opts = {
@@ -174,6 +177,8 @@ def build_ydl_opts(output_path: Path, filename_template: Optional[str] = None) -
             }
         },
     }
+    if COOKIES_FILE and Path(COOKIES_FILE).exists():
+        opts["cookiefile"] = COOKIES_FILE
     return opts
 
 

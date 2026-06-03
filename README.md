@@ -4,6 +4,7 @@ Download any public Spotify playlist as MP3 files — via YouTube.
 
 PlayPack reads your playlist from the Spotify API, searches each track on YouTube, downloads the best audio source, converts it to **MP3 at 192 kbps**, and packages everything into a ZIP. It ships with a React web UI and a standalone CLI.
 
+Live Demo: https://playpack.onrender.com/
 ---
 
 ## Features
